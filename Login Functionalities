@@ -1,0 +1,49 @@
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class Selintroduction {
+    @Test
+    public void login() {
+        // Set path for ChromeDriver
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");  // Correct the path
+
+        // Create WebDriver instance
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        
+        // Step 1: Navigate to login page
+        driver.get("https://gh-qa.azurewebsites.net/#/account/login");
+
+        // Step 2: Locate the username and password fields
+        WebElement username = driver.findElement(By.id("email"));  // Correct the ID to match the actual field
+        WebElement password = driver.findElement(By.id("password"));  // Correct the ID to match the actual field
+
+        // Step 3: Locate the login button
+        WebElement login = driver.findElement(By.xpath("//button[text()='Sign in']"));
+
+        // Step 4: Input valid credentials
+        username.sendKeys("aiswaryamahesh14@gmail.com");  // Enter your actual test username
+        password.sendKeys("Ais@123456789");  // Enter your actual test password
+
+        // Step 5: Click login
+        login.click();
+
+        // Step 6: Wait for the dashboard or any expected element after login
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); // Add a wait time for page load
+
+        // Step 7: Verify if the user has been redirected to the correct page
+        String actualUrl = driver.getCurrentUrl();  // Get the current URL after login
+        String expectedUrl = "https://gh-qa.azurewebsites.net/#/dashboard";  // Modify to match the actual post-login URL
+        
+        // Assert that the user has been redirected to the expected page
+        Assert.assertEquals(actualUrl, expectedUrl);
+        
+        // Close the browser
+        driver.quit();
+    }
+}
