@@ -1,0 +1,41 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+
+# Set up the WebDriver (use the appropriate driver for your browser)
+driver = webdriver.Chrome(executable_path="path/to/chromedriver")
+
+try:
+    # Step 1: Navigate to the login page
+    driver.get("http://yourapplication.com/login")
+    
+    # Step 2: Leave the username and/or password field blank
+    username_field = driver.find_element(By.ID, "username")  # Adjust the locator to match your app
+    password_field = driver.find_element(By.ID, "password")  # Adjust the locator to match your app
+    login_button = driver.find_element(By.ID, "login_button")  # Adjust the locator to match your app
+    
+    # Clear fields just in case
+    username_field.clear()
+    password_field.clear()
+    
+    # Step 3: Click the Login button
+    login_button.click()
+    
+    # Step 4: Wait for the page to load and validation messages to appear
+    time.sleep(2)  # Wait for 2 seconds to let the validation message appear
+    
+    # Step 5: Check if the validation message appears
+    validation_message = driver.find_element(By.XPATH, "//div[@class='validation-message']")  # Update locator to match the actual validation message element
+    
+    # Step 6: Verify the validation message
+    assert "Username and Password are required" in validation_message.text, "Validation message not displayed correctly"
+    
+    print("Test Passed: Validation message displayed correctly.")
+    
+except Exception as e:
+    print(f"Test Failed: {e}")
+    
+finally:
+    # Close the browser
+    driver.quit()
